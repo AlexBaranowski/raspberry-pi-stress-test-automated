@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# Author: Alex Baranowski <ab@euro-linux.com>
+# License: MIT
+
+set -euo pipefail
+# Let Pi start
+echo "-> raspberry-stressberry started"
+sleep 30
+# vars
+# frequency + over_voltage comma separated
+frequencies_voltages=('1800,3' '2100,6' '2250,8')
+array_length="${#frequencies_voltages[@]}"
+current_number=0
+[ -e /var/stressberry-run-number ] && current_number=$(cat /var/stressberry-run-number)
+
+
+clear_boot_config(){
+    echo "-> raspberry-stressberry clear boot config"
+    sed -i '/arm_freq/d' /boot/config.txt
+    sed -i '/over_voltage/d' /boot/config.txt
+}
+
+
+set_boot_config(){
+    echo "-> raspberry-stressberry setup boot config freq = $frequency over_volt = $voltage"
+    echo "arm_freq=$frequency" >> /boot/config.txt
+    echo "over_voltage=$voltage" >> /boot/config.txt
+}
+
+# Run only if there is something to run :)
+if [ "$current_number" -ge "$array_length" ]; then
+    echo "-> raspberry-stressberry all run done!"
+    if grep -q arm_freq /boot/config.txt; then
+        clear_boot_config
+        echo "-> raspberry-stressberry disable raspberry-stressbery service"
+        systemctl disable raspberry-stressberry.service && rm /var/stressberry-run-number
+        echo "-> raspberry-stressberry system reboot"
+        sleep 5
+        reboot
+    exit 1
+else
+    current_number=$((current_number+1))
+    echo $current_number > /var/stressberry-run-number
+fi
+
+array_index=$((current_number-1))
+
+frequency=$(echo "${frequencies_voltages[$array_index]}" | awk -F, '{print $1}')
+voltage=$(echo "${frequencies_voltages[$array_index]}" | awk -F, '{print $2}')
+current_cpu_freq=$(cat /sys/bus/cpu/devices/cpu0/subsystem/devices/cpu0/cpufreq/cpuinfo_cur_freq)
+
+echo "-> raspberry-stressberry starting stressberry-run"
+/usr/local/bin/stressberry-run  --cooldown 3 --idle 60 -n "CPU frequency: $current_cpu_freq" "/var/stressberry-run-$current_cpu_freq"
+
+clear_boot_config
+set_boot_config
+
+
+echo "-> raspberry-stressberry system reboot"
+sleep 5
+reboot

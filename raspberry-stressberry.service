@@ -1,0 +1,10 @@
+[Unit]
+Description=StressBerry run
+
+[Service]
+ExecStart=/sbin/raspberry-stressberry
+StandardOutput=kmsg
+StandardError=kmsg
+
+[Install]
+WantedBy=multi-user.target
