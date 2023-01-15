@@ -9,7 +9,7 @@ echo "-> raspberry-stressberry started"
 sleep 30
 # vars
 # frequency + over_voltage comma separated
-frequencies_voltages=('1800,3' '2100,6' '2250,8')
+frequencies_voltages=('1800,3' '2100,6' '2300,8')
 array_length="${#frequencies_voltages[@]}"
 current_number=0
 [ -e /var/stressberry-run-number ] && current_number=$(cat /var/stressberry-run-number)
@@ -33,7 +33,7 @@ if [ "$current_number" -ge "$array_length" ]; then
     echo "-> raspberry-stressberry all run done!"
     if grep -q arm_freq /boot/config.txt; then
         clear_boot_config
-        echo "-> raspberry-stressberry disable raspberry-stressbery service"
+        echo "-> raspberry-stressberry disable raspberry-stressberry service"
         systemctl disable raspberry-stressberry.service && rm /var/stressberry-run-number
         echo "-> raspberry-stressberry system reboot"
         sleep 5

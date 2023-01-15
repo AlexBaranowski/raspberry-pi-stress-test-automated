@@ -2,9 +2,8 @@
 
 ### **Overclocking can destroy your RPi continue on your own risk**.
 
-This repository contains simple scripts that run stressbery (on different
+This repository contains simple scripts that run stressberry (on different
 overclocking parameters) and systemd unit file that starts that script. 
-
 
 ## Installation
 
@@ -12,12 +11,12 @@ overclocking parameters) and systemd unit file that starts that script.
 git clone https://github.com/AlexBaranowski/raspberry-pi-stress-test-automated.git
 cd raspberry-pi-stress-test-automated
 # HERE YOU CAN SETUP the frequencies
-# $EDITOR raspberry-stressbery
-sudo cp raspberry-stressbery /sbin/
-chmod 755 /sbin/raspberry-stressbery
-cp raspberry-stressbery.service /etc/systemd/system/
+# $EDITOR raspberry-stressberry
+sudo cp raspberry-stressberry /sbin/
+sudo chmod 755 /sbin/raspberry-stressberry
+sudo cp raspberry-stressberry.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable raspberry-stressbery
+sudo systemctl enable raspberry-stressberry
 reboot
 ```
 
