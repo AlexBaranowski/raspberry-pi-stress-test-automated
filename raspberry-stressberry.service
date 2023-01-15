@@ -3,8 +3,8 @@ Description=StressBerry run
 
 [Service]
 ExecStart=/sbin/raspberry-stressberry
-StandardOutput=kmsg
-StandardError=kmsg
+StandardOutput=kmsg+console
+StandardError=kmsg+console
 
 [Install]
 WantedBy=multi-user.target

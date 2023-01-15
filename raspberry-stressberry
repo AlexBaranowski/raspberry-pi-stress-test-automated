@@ -5,8 +5,8 @@
 
 set -euo pipefail
 # Let Pi start
-echo "-> raspberry-stressberry started"
 sleep 30
+echo "-> raspberry-stressberry started"
 # vars
 # frequency + over_voltage comma separated
 frequencies_voltages=('1800,3' '2100,6' '2300,8')
@@ -38,6 +38,7 @@ if [ "$current_number" -ge "$array_length" ]; then
         echo "-> raspberry-stressberry system reboot"
         sleep 5
         reboot
+    fi
     exit 1
 else
     current_number=$((current_number+1))
@@ -59,4 +60,4 @@ set_boot_config
 
 echo "-> raspberry-stressberry system reboot"
 sleep 5
-reboot
+#reboot
