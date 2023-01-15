@@ -49,7 +49,7 @@ The scripts requires:
    missleading output file (name depends on frequency reported by the cpu0 before
    tests starts)
 3. If you want to overclock beyond `over_volt` >= 8 you must add additonal config
-   to the `/boot/config.txt`. Note that this is might destroy/fry/brick your
-   Raspberry Pi board. I won't provide these instructions here.
+   to the `/boot/config.txt`. **Note that this might destroy/fry/brick your
+   Raspberry Pi board.** I won't provide these instructions here.
 4. If stress-ng is installed, and /usr/bin/stress is unavailable, the softlink `ln -s /usr/bin/stress-ng
    /usr/bin/stress` must be created.
